@@ -1,0 +1,16 @@
+logging:
+   file: 
+       name: "C:/Users/Eli/Desktop/Logs/demo-api.log"
+   level:
+      root: INFO
+      com.example.demo: TRACE
+      org.springframework: WARN
+   pattern:
+       console: "%d{dd-MM-yyyy HH:mm:ss.SSS} %X{op} %X{id} - %magenta([%thread]) %highlight(%-5level) %logger{0} - %msg%n"
+       file: "%d{dd-MM-yyyy HH:mm:ss.SSS} %X{op} %X{id} - %-5level %logger{0} - %msg%n"
+   RollingFile:
+        filePattern: "logs/archive/rollingfile.log.%d{yyyy-MM-dd-hh-mm}.gz"
+        PatternLayout:
+          pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
+        DefaultRollOverStrategy:
+          max: 30

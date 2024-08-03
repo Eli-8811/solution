@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.core.solution.mapper.UserMapper">
+
+	<insert id="createUser" useGeneratedKeys="true"
+		keyProperty="userRequest.userId" keyColumn="user_id">
+		INSERT INTO public.user(
+		name,
+		lastname,
+		username,
+		email,
+		password,
+		age,
+		phone,
+		creation_at,
+		modification_at)
+		VALUES (
+		#{userRequest.name},
+		#{userRequest.lastname},
+		#{userRequest.username},
+		#{userRequest.email},
+		#{userRequest.password},
+		#{userRequest.age},
+		#{userRequest.phone},
+		NOW(),
+		NOW())
+	</insert>
+	
+	<resultMap id="getUsersResult" type="EntityUser">
+		<id column="user_id" property="userId" />
+		<result column="name" property="name" />
+		<result column="lastname" property="lastname" />
+		<result column="username" property="username" />
+		<result column="email" property="email" />
+		<result column="password" property="password" />
+		<result column="age" property="age" />
+		<result column="phone" property="phone" />
+		<result column="enabled" property="enabled" />
+		<result column="creation_at" property="creationAt" />
+		<result column="modification_at" property="modificationAt" />
+	</resultMap>
+
+	<select id="getUsers" resultMap="getUsersResult">
+		SELECT
+		user_id,
+		name,
+		lastname,
+		username,
+		email,
+		password,
+		age,
+		phone,
+		enabled,
+		creation_at,
+		modification_at
+		FROM public.user
+	</select>
+
+	<resultMap id="getRolesResult" type="EntityRoleUser">
+		<id column="role_user_id" property="roleUserId" />
+		<id column="user_id" property="userId" />
+		<id column="role_id" property="roleId" />
+		<result column="name" property="name" />
+		<result column="enabled" property="enabled" />
+		<result column="creation_at" property="creationAt" />
+		<result column="modification_at" property="modificationAt" />
+	</resultMap>
+
+	<select id="getRoles" resultMap="getRolesResult">
+		SELECT
+		B.role_user_id,
+		B.user_id,
+		A.role_id,
+		A.name,
+		B.enabled,
+		B.creation_at,
+		B.modification_at
+		FROM
+		public.role A
+		INNER JOIN public.role_user B
+		ON A.role_id =
+		B.role_id
+		WHERE B.user_id = #{pUserId}
+	</select>
+	
+	<resultMap id="getUserResult" type="EntityUser">
+		<id column="user_id" property="userId" />
+		<result column="name" property="name" />
+		<result column="lastname" property="lastname" />
+		<result column="username" property="username" />
+		<result column="email" property="email" />
+		<result column="password" property="password" />
+		<result column="age" property="age" />
+		<result column="phone" property="phone" />
+		<result column="enabled" property="enabled" />
+		<result column="creation_at" property="creationAt" />
+		<result column="modification_at" property="modificationAt" />
+		<collection property="roles" column="{pUserId=user_id}"
+			select="getRoles" />
+	</resultMap>
+
+	<select id="getUser" resultMap="getUserResult">
+		SELECT
+		user_id,
+		name,
+		lastname,
+		username,
+		email,
+		password,
+		age,
+		phone,
+		enabled,
+		creation_at,
+		modification_at
+		FROM public.user
+		WHERE username = #{username}
+	</select>
+	
+	<update id="patchUser">
+		UPDATE public.user
+		SET
+		<if test="userRequest.name != null">
+			name = #{userRequest.name},
+		</if>
+		<if test="userRequest.lastname != null">
+			lastname = #{userRequest.lastname},
+		</if>
+		<if test="userRequest.email != null">
+			email = #{userRequest.email},
+		</if>
+		<if test="userRequest.phone != null">
+			phone = #{userRequest.phone},
+		</if>
+		<if test="userRequest.password!= null">
+			password = #{userRequest.password},
+		</if>
+		<if test="userRequest.age!= null">
+			age = #{userRequest.age},
+		</if>
+		modification_at = NOW()
+		WHERE username = #{userRequest.username}
+	</update>
+	
+	<update id="putUser">
+		UPDATE public.user
+		SET name = #{userRequest.name},
+			lastname = #{userRequest.lastname},
+			email = #{userRequest.email},
+			phone = #{userRequest.phone},
+			password = #{userRequest.password},
+			age = #{userRequest.age},
+			modification_at = NOW()
+		WHERE username = #{userRequest.username}
+	</update>
+
+	<delete id="deleteUser">
+		DELETE FROM public.user
+		WHERE username = #{username}
+	</delete>
+	
+</mapper>

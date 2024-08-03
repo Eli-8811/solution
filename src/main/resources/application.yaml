@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: demo
+  profiles:
+    active: "${SYSTEM_PROFILE}"
+    include:
+      - logging
+  output:
+    ansi:
+      enabled: ALWAYS
+  main:
+    allow-bean-definition-overriding: true
+  mvc:
+    throw-exception-if-no-handler-found: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=public
+    username: postgres
+    password: admin
+server:
+  port: 8080
+  servlet:
+    context-path: /demo-api
+mybatis:
+  config-location: classpath:mybatis-config.xml
+springdoc:
+  swagger-ui:
+    path: /earomero-documentation
+    tryItOutEnabled: true
+    filter: true
+  api-docs:
+    path: /earomero-api-docs
