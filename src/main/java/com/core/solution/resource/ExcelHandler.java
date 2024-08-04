@@ -1,10 +1,10 @@
 package com.core.solution.resource;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,9 +21,8 @@ public class ExcelHandler {
 	private final ExcelService excelService;
 	
 	
-	@PostMapping("/xlsx")
-	@ResponseBody
-	public ResponseEntity<?> uploadBigFile(@RequestParam("file") MultipartFile file) {		
+	@RequestMapping(method = RequestMethod.POST, value = "/read", consumes= MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<?> uploadBigFile(@RequestPart(value = "file", required = false ) MultipartFile file) {		
 		try {
 			log.info("File size {} ", file.getSize());
 			log.info("File name {} ", file.getName());			
