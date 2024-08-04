@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class Utils {
 
 	public static String formatDate(Date date) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat(MessagesGeneral.DD_MM_YYYY);
+		SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.DD_MM_YYYY);
 		return dateFormat.format(date);
 	}
 

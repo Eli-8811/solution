@@ -4,24 +4,14 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class MessagesGeneral {
-	
-	public static final String DD_MM_YYYY = "dd/MM/yyyy";
-	
-	public static final String TAG_GET = "get";
-	public static final String TAG_POST = "post";
-	public static final String TAG_PATCH = "patch";
-	public static final String TAG_PUT = "put";
-	public static final String TAG_DELETE = "delete";
-	
+public class MessagesResources {
+
 	public static final String MAPPING_GET = "/get";
 	public static final String MAPPING_GET_ALL = "/all";
 	public static final String MAPPING_CREATE = "/create";
 	public static final String MAPPING_PATCH = "/patch";
 	public static final String MAPPING_PUT = "/put";
-	public static final String MAPPING_DELETE = "/delete";
-	
-	public static final String MAPPING_ALL_DELETE = "/all/delete";
+	public static final String MAPPING_DELETE = "/delete";	
 
 	public static final boolean SUCCESS_CREATE_USER = true;
 	public static final String MESSAGE_CREATE_USER = "Created user with username %s successfully.";
