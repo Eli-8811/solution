@@ -3,8 +3,8 @@ logging:
        name: "C:/Users/Eli/Desktop/Logs/demo-api.log"
    level:
       root: INFO
-      com.example.demo: TRACE
-      org.springframework: WARN
+      com.core.solution: DEBUG
+      org.springframework.web: DEBUG
    pattern:
        console: "%d{dd-MM-yyyy HH:mm:ss.SSS} %X{op} %X{id} - %magenta([%thread]) %highlight(%-5level) %logger{0} - %msg%n"
        file: "%d{dd-MM-yyyy HH:mm:ss.SSS} %X{op} %X{id} - %-5level %logger{0} - %msg%n"

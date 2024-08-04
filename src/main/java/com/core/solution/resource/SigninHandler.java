@@ -2,6 +2,7 @@ package com.core.solution.resource;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,8 +29,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/auth")
 public class SigninHandler {
 	
-	private JwtUtils jwtUtils;
-	private AuthenticationManager authenticationManager;
+	@Autowired JwtUtils jwtUtils; 
+	@Autowired AuthenticationManager authenticationManager;
 	
 	@PostMapping("/signin")
 	public ResponseEntity<ResponseGeneric<JwtResponseFinal>> getUser(@RequestBody SigninRequest signinRequest) {		
@@ -39,7 +40,7 @@ public class SigninHandler {
 		List<String> roles = userDetailService.getAuthorities().stream().map(item -> item.getAuthority()).toList();		
 		JwtResponseFinal jwtResponseFinal = new JwtResponseFinal();	
 		jwtResponseFinal.setJwtResponse(
-				new JwtResponse("Bearer ".concat(this.jwtUtils.generateJwtToken(authentication)), 
+				new JwtResponse(this.jwtUtils.generateJwtToken(authentication), 
 						userDetailService.getId(),
 						userDetailService.getUsername(), 
 						userDetailService.getEmail(), 

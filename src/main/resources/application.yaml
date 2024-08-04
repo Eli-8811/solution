@@ -1,6 +1,6 @@
 spring:
   application:
-    name: demo
+    name: solution
   profiles:
     active: "${SYSTEM_PROFILE}"
     include:
@@ -8,6 +8,10 @@ spring:
   output:
     ansi:
       enabled: ALWAYS
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 30MB
   main:
     allow-bean-definition-overriding: true
   mvc:

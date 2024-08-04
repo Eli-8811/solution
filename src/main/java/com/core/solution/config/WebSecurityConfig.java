@@ -60,7 +60,7 @@ public class WebSecurityConfig {
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
-		configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+		configuration.setAllowedMethods(Arrays.asList("GET","POST", "PATCH", "PUT", "DELETE"));
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
@@ -74,8 +74,9 @@ public class WebSecurityConfig {
 			.authorizeHttpRequests(auth -> 
 								   auth.requestMatchers("/auth/**").permitAll()								       
 								   	   .requestMatchers("/user/**").permitAll()
-								   	.requestMatchers("/earomero-api-docs/**").permitAll()
-								   	   .requestMatchers("/swagger-ui/**").permitAll().anyRequest().authenticated());
+								   	   .requestMatchers("/earomero-api-docs/**").permitAll()
+								   	   .requestMatchers("/swagger-ui/**").permitAll()
+								   	   .anyRequest().authenticated());
 		http.authenticationProvider(authenticationProvider());
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 		return http.build();
