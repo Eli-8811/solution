@@ -126,11 +126,6 @@
 		WHERE username = #{userRequest.username}
 	</update>
 
-	<delete id="deleteUser">
-		DELETE FROM public.user
-		WHERE username = #{username}
-	</delete>
-	
 	<insert id="signupUser" useGeneratedKeys="true"
 		keyProperty="signupRequest.userId" keyColumn="user_id">
 		INSERT INTO public.user(

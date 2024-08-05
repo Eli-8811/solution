@@ -7,7 +7,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -123,20 +122,6 @@ public class UserHandler {
 				MessagesResources.SUCCESS_PUT_USER, 
 				String.format(MessagesResources.MESSAGE_PUT_USER, userRequest.getUsername()), 
 				MessagesResources.DATA_PUT_USER);		
-		return new ResponseEntity<>(responseGeneric, headers, HttpStatus.OK);
-	}
-
-	@SneakyThrows
-	@DeleteMapping(MessagesResources.MAPPING_DELETE)
-	public ResponseEntity<ResponseGeneric<String>> deleteUser(@RequestParam("username") String username) {
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		ResponseGeneric<String> responseGeneric = null;
-		this.userService.deleteUser(username);
-		responseGeneric = new ResponseGeneric<>(
-				MessagesResources.SUCCESS_DELETE_USER, 
-				String.format(MessagesResources.MESSAGE_DELETE_USER, username), 
-				MessagesResources.DATA_DELETE_USER);
 		return new ResponseEntity<>(responseGeneric, headers, HttpStatus.OK);
 	}
 

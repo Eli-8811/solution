@@ -181,19 +181,5 @@ public class UserHandlerTests {
 			assertNotNull(result);
 	    });	
 	}
-
-	@Test
-	public void whenDeleteUser() throws SolutionException {
-		String username = "demostenes";
-		userServiceMockBean.deleteUser(username);			
-		ResultMatcher ok = status().isOk();		
-		assertDoesNotThrow(() -> {
-			MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/user/delete?username=demostenes")
-					.contentType(MediaType.APPLICATION_JSON_VALUE)
-					.accept(MediaType.APPLICATION_JSON_VALUE);		
-			MvcResult result = mockMcv.perform(requestBuilder).andExpect(status().isOk()).andDo(print()).andExpect(ok).andReturn();		
-			assertNotNull(result);
-	    });	
-	}
 	
 }

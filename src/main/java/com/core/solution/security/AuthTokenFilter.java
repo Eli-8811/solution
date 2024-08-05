@@ -23,9 +23,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AuthTokenFilter extends OncePerRequestFilter {
 	
-	@Autowired JwtUtils jwtUtils;
+	@Autowired private JwtUtils jwtUtils;
 
-	@Autowired UserLoadService userLoadService;
+	@Autowired private UserLoadService userLoadService;
 
 	@Override
 	protected void doFilterInternal(
@@ -37,9 +37,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 			if (jwt != null && this.jwtUtils.validateJwtToken(jwt)) {
 				String username = this.jwtUtils.getUserNameFromJwtToken(jwt);
 				UserDetails userDetails = this.userLoadService.loadUserByUsername(username);
-				System.out.println(userDetails.getPassword());
-				System.out.println(userDetails.getUsername());
-				System.out.println(userDetails.getAuthorities().size());
 				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
 						userDetails, null, userDetails.getAuthorities());
 				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

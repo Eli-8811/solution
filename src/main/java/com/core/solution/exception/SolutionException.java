@@ -2,29 +2,26 @@ package com.core.solution.exception;
 
 public class SolutionException extends Exception {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1360070792360045565L;
 
-	private DataException dataException;
+	private SolutionData solutionData;
 	
-	public SolutionException(String message, DataException dataException, Throwable e) {
+	public SolutionException(String message, SolutionData solutionData, Throwable e) {
 		super(message, e);
-		setDataException(dataException);
+		setDataException(solutionData);
 	}
 	
-	public SolutionException(String message, DataException dataException) {
+	public SolutionException(String message, SolutionData solutionData) {
 		super(message);
-		setDataException(dataException);
+		setDataException(solutionData);
 	}
 
-	public DataException getDataException() {
-		return dataException;
+	public SolutionData getDataException() {
+		return solutionData;
 	}
 
-	public void setDataException(DataException dataException) {
-		this.dataException = dataException;
+	public void setDataException(SolutionData solutionData) {
+		this.solutionData = solutionData;
 	}
 	
 }

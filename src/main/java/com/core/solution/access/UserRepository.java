@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.core.solution.exception.DataException;
+import com.core.solution.exception.SolutionData;
 import com.core.solution.exception.SolutionException;
 import com.core.solution.mapper.UserMapper;
 import com.core.solution.model.entity.EntityUser;
@@ -26,7 +26,7 @@ public class UserRepository extends GenericRepository {
 		} catch (Exception e) {			
 			throw new SolutionException(
 					MessagesAccess.MESSAGE_ERROR_DB_GET_ALL_USER,
-					new DataException(MessagesAccess.SUCCESS,
+					new SolutionData(MessagesAccess.SUCCESS,
 									  MessagesAccess.TITLE_ERROR_DB_GET_ALL_USER,
 							          e.getCause().toString(),
 							          MessagesAccess.CODE_ERROR_DB_GET_ALL_USER));			
@@ -42,7 +42,7 @@ public class UserRepository extends GenericRepository {
 		} catch (Exception e) {			
 			throw new SolutionException(
 					String.format(MessagesAccess.MESSAGE_ERROR_DB_GET_USER, username),
-					new DataException(MessagesAccess.SUCCESS,
+					new SolutionData(MessagesAccess.SUCCESS,
 									  MessagesAccess.TITLE_ERROR_DB_GET_USER,
 							          e.getCause().toString(),
 							          MessagesAccess.CODE_ERROR_DB_GET_USER));			
@@ -57,7 +57,7 @@ public class UserRepository extends GenericRepository {
 		} catch (Exception e) {
 			throw new SolutionException(
 					String.format(MessagesAccess.MESSAGE_ERROR_DB_PATCH_USER, userRequest.getUsername()),
-					new DataException(MessagesAccess.SUCCESS,
+					new SolutionData(MessagesAccess.SUCCESS,
 									  MessagesAccess.TITLE_ERROR_DB_PATCH_USER,
 							          e.getCause().toString(),
 							          MessagesAccess.CODE_ERROR_DB_PATCH_USER));	
@@ -71,25 +71,11 @@ public class UserRepository extends GenericRepository {
 		} catch (Exception e) {
 			throw new SolutionException(
 					String.format(MessagesAccess.MESSAGE_ERROR_DB_PUT_USER, userRequest.getUsername()),
-					new DataException(MessagesAccess.SUCCESS,
+					new SolutionData(MessagesAccess.SUCCESS,
 									  MessagesAccess.TITLE_ERROR_DB_PUT_USER,
 							          e.getCause().toString(),
 							          MessagesAccess.CODE_ERROR_DB_PUT_USER));	
 		}				
-	}
-	
-	public void deleteUser(String username) throws SolutionException {		
-		UserMapper mapper = super.getSqlSession().getMapper(UserMapper.class);		
-		try {			
-			mapper.deleteUser(username);			
-		} catch (Exception e) {			
-			throw new SolutionException(
-					String.format(MessagesAccess.MESSAGE_ERROR_DB_DELETE_USER, username),
-					new DataException(MessagesAccess.SUCCESS,
-									  MessagesAccess.TITLE_ERROR_DB_DELETE_USER,
-							          e.getCause().toString(),
-							          MessagesAccess.CODE_ERROR_DB_DELETE_USER));				
-		}
 	}
 
 	public Integer signupUser(SignupRequest signupRequest) throws SolutionException {		
@@ -99,7 +85,7 @@ public class UserRepository extends GenericRepository {
 		} catch (Exception e) {
 			throw new SolutionException(
 					MessagesAccess.MESSAGE_ERROR_DB_CRATE_USER,
-					new DataException(MessagesAccess.SUCCESS,
+					new SolutionData(MessagesAccess.SUCCESS,
 									  MessagesAccess.TITLE_ERROR_DB_CRATE_USER,
 							          e.getCause().toString(),
 							          MessagesAccess.CODE_ERROR_DB_CRATE_USER));			

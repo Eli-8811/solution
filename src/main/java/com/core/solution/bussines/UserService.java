@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.core.solution.access.UserRepository;
-import com.core.solution.exception.DataException;
+import com.core.solution.exception.SolutionData;
 import com.core.solution.exception.SolutionException;
 import com.core.solution.model.entity.EntityUser;
 import com.core.solution.model.payload.SignupRequest;
@@ -43,14 +43,14 @@ public class UserService {
 			entityUser = this.userRepository.getUser(username);			
 			if (entityUser == null) {
 				throw new SolutionException(String.format(MessagesBussines.MESSAGE_NULL_USERNAME, username),
-						new DataException(MessagesBussines.SUCCESS, 
+						new SolutionData(MessagesBussines.SUCCESS, 
 								MessagesBussines.TITLE_NULL_USERNAME,
 								String.format(MessagesBussines.MESSAGE_NULL_USERNAME, username),
 								MessagesBussines.CODE_NULL_USERNAME));
 			}			
 		} else {			
 			throw new SolutionException(MessagesBussines.MESSAGE_ERROR_USERNAME,
-					new DataException(
+					new SolutionData(
 							MessagesBussines.SUCCESS, 
 							MessagesBussines.TITLE_ERROR_USERNAME,
 							MessagesBussines.MESSAGE_ERROR_USERNAME,
@@ -64,7 +64,7 @@ public class UserService {
 			return this.userRepository.getUsers();	
 		} catch (Exception e) {
 			throw new SolutionException(MessagesBussines.MESSAGE_ERROR_GET_ALL_USER,
-					new DataException(
+					new SolutionData(
 							MessagesBussines.SUCCESS, 
 							MessagesBussines.TITLE_ERROR_GET_ALL_USER,
 							MessagesBussines.MESSAGE_ERROR_GET_ALL_USER,
@@ -79,7 +79,7 @@ public class UserService {
 			this.userRepository.patchUser(userRequest);	
 		} catch (Exception e) {
 			throw new SolutionException(String.format(MessagesBussines.MESSAGE_ERROR_PATCH_USER, username),
-					new DataException(
+					new SolutionData(
 							MessagesBussines.SUCCESS, 
 							MessagesBussines.TITLE_ERROR_PATCH_USER,
 							String.format(MessagesBussines.MESSAGE_ERROR_PATCH_USER, username),
@@ -95,25 +95,11 @@ public class UserService {
 			this.userRepository.putUser(userRequest);
 		} catch (Exception e) {
 			throw new SolutionException(String.format(MessagesBussines.MESSAGE_ERROR_PUT_USER, username),
-					new DataException(
+					new SolutionData(
 							MessagesBussines.SUCCESS, 
 							MessagesBussines.TITLE_ERROR_PUT_USER,
 							String.format(MessagesBussines.MESSAGE_ERROR_PUT_USER, username),
 							MessagesBussines.CODE_ERROR_PUT_USER));
-		}		
-	}
-
-	@Transactional
-	public void deleteUser(String username) throws SolutionException {
-		try {
-			this.userRepository.deleteUser(username);	
-		} catch (Exception e) {
-			throw new SolutionException(String.format(MessagesBussines.MESSAGE_ERROR_DELETE_USER, username),
-					new DataException(
-							MessagesBussines.SUCCESS, 
-							MessagesBussines.TITLE_ERROR_DELETE_USER,
-							String.format(MessagesBussines.MESSAGE_ERROR_DELETE_USER, username),
-							MessagesBussines.CODE_ERROR_DELETE_USER));
 		}		
 	}
 
@@ -127,18 +113,18 @@ public class UserService {
 		
 		if(!isValidUsername) {
 			throw new SolutionException(MessagesBussines.MESSAGE_ERROR_USERNAME,
-					new DataException(
+					new SolutionData(
 							MessagesBussines.SUCCESS, 
 							MessagesBussines.TITLE_ERROR_USERNAME,
 							MessagesBussines.MESSAGE_ERROR_USERNAME,
 							MessagesBussines.CODE_ERROR_USERNAME));			
-		}
+		}	
 		
 		if(isValidPassword) {
 			signupRequest.setPassword(this.encoder.encode(signupRequest.getPassword().trim()));
 		} else {
 			throw new SolutionException(MessagesBussines.MESSAGE_ERROR_CREATE_PASSWORD,
-					new DataException(
+					new SolutionData(
 							MessagesBussines.SUCCESS, 
 							MessagesBussines.TITLE_ERROR_CREATE_PASSWORD,
 							MessagesBussines.MESSAGE_ERROR_CREATE_PASSWORD,
@@ -147,7 +133,7 @@ public class UserService {
 		
 		if(!isValidPhone) {
 			throw new SolutionException(MessagesBussines.MESSAGE_ERROR_PHONE,
-					new DataException(
+					new SolutionData(
 							MessagesBussines.SUCCESS, 
 							MessagesBussines.TITLE_ERROR_PHONE,
 							MessagesBussines.MESSAGE_ERROR_PHONE,
@@ -156,17 +142,14 @@ public class UserService {
 		
 		if(!isValidEmail) {
 			throw new SolutionException(MessagesBussines.MESSAGE_ERROR_EMAIL,
-					new DataException(
+					new SolutionData(
 							MessagesBussines.SUCCESS, 
 							MessagesBussines.TITLE_ERROR_EMAIL,
 							MessagesBussines.MESSAGE_ERROR_EMAIL,
 							MessagesBussines.CODE_ERROR_EMAIL));	
 		}		
 		
-		
-		if(isValidUsername && isValidPassword && isValidPhone && isValidEmail) {
-			signupRequest.setUserId(this.userRepository.signupUser(signupRequest));	
-		}		
+		signupRequest.setUserId(this.userRepository.signupUser(signupRequest));	
 		
 		return signupRequest;
 		

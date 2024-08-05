@@ -68,3 +68,28 @@ TABLESPACE pg_default;
 ALTER TABLE IF EXISTS public."user"
     OWNER to postgres;
 
+INSERT INTO public.role(name, enabled, creation_at, modification_at)
+VALUES ('ROLE_ADMIN', true, NOW(), NOW());
+
+INSERT INTO public.role(name, enabled, creation_at, modification_at)
+VALUES ('ROLE_USER', true, NOW(), NOW());
+
+INSERT INTO public.role(name, enabled, creation_at, modification_at)
+VALUES ('ROLE_DEFAULT', true, NOW(), NOW());
+
+INSERT INTO public.role_user(role_id, user_id, enabled, creation_at, modification_at)
+VALUES (1, 1, true, NOW(), NOW());
+
+INSERT INTO public.role_user(role_id, user_id, enabled, creation_at, modification_at)
+VALUES (1, 1, true, NOW(), NOW());
+
+INSERT INTO public.role_user(role_id, user_id, enabled, creation_at, modification_at)
+VALUES (2, 1, true, NOW(), NOW());
+
+INSERT INTO public.role_user(role_id, user_id, enabled, creation_at, modification_at)
+VALUES (3, 1, true, NOW(), NOW());
+
+SELECT user_id, name, lastname, username, email, password, age, phone, enabled, creation_at, modification_at
+FROM public."user";
+
+

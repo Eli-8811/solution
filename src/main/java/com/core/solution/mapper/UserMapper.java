@@ -21,9 +21,7 @@ public interface UserMapper {
 
 	void putUser(@Param("userRequest") UserRequest userRequest) throws SolutionException;
 	
-	void deleteUsers() throws SolutionException;		
-
-	void deleteUser(@Param("username") String username) throws SolutionException;
+	void deleteUsers() throws SolutionException;
 
 	void signupUser(@Param("signupRequest") SignupRequest signupRequest) throws SolutionException;
 	

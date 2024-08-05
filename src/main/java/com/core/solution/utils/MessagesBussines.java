@@ -28,20 +28,28 @@ public class MessagesBussines {
 	public static final String MESSAGE_ERROR_DELETE_USER = "No se pudo borrar el usuario por medio del username %s";
 	public static final Integer CODE_ERROR_DELETE_USER = 2005;
 	
-	public static final String TITLE_ERROR_USERNAME = "Username incorrecto.";
-	public static final String MESSAGE_ERROR_USERNAME = "El nombre de usuario solo admite letras.";
+	public static final String TITLE_ERROR_USERNAME = "El username incorrecto.";
+	public static final String MESSAGE_ERROR_USERNAME = "El username solo admite letras.";
 	public static final Integer CODE_ERROR_USERNAME = 2006;
 	
-	public static final String TITLE_ERROR_CREATE_PASSWORD = "Contraseña incorrecta.";
+	public static final String TITLE_ERROR_CREATE_PASSWORD = "La contraseña incorrecta.";
 	public static final String MESSAGE_ERROR_CREATE_PASSWORD = "La contraseña debe ser mayor igual a 8 de longitud, una mayuscula, una minuscula, un numero y cualquiera de los siguientes caracteres especiales, (.*[!@#$%^&*()_+\\\\-=\\\\[\\\\]{};':\\\"\\\\\\\\|,.<>\\\\/?].*) ";
 	public static final Integer CODE_ERROR_CREATE_PASSWORD = 2007;
 	
-	public static final String TITLE_ERROR_PHONE = "Telefono incorrecto.";
+	public static final String TITLE_ERROR_PHONE = "El telefono incorrecto.";
 	public static final String MESSAGE_ERROR_PHONE = "El telefono debe contener 10 digitos y solamente debe contener numeros.";
 	public static final Integer CODE_ERROR_PHONE = 2008;
 	
 	public static final String TITLE_ERROR_EMAIL = "Correo incorrecto.";
 	public static final String MESSAGE_ERROR_EMAIL = "El correo debe contener el formato correcto.";
 	public static final Integer CODE_ERROR_EMAIL = 1009;
+	
+	public static final String TITLE_ERROR_PROCESS_EXCEL_NORMAL = "Procesamiento con errrores.";
+	public static final String MESSAGE_ERROR_PROCESS_EXCEL_NORMAL = "El procesamiento del excel se ha ejecutado con errores.";
+	public static final Integer CODE_ERROR_PROCESS_EXCEL_NORMAL = 1010;
+	
+	public static final String TITLE_ERROR_GENERATE_B64 = "No se pudo generar el base 64..";
+	public static final String MESSAGE_ERROR_GENERATE_B64 = "El base64 no logro generarse para el archivo %s.";
+	public static final Integer CODE_ERROR_GENERATE_B64 = 1011;
 	
 }
