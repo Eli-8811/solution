@@ -49,11 +49,11 @@ public class UserService {
 								MessagesBussines.CODE_NULL_USERNAME));
 			}			
 		} else {			
-			throw new SolutionException(MessagesBussines.TITLE_ERROR_USERNAME,
+			throw new SolutionException(MessagesBussines.MESSAGE_ERROR_USERNAME,
 					new DataException(
 							MessagesBussines.SUCCESS, 
 							MessagesBussines.TITLE_ERROR_USERNAME,
-							MessagesBussines.TITLE_ERROR_USERNAME,
+							MessagesBussines.MESSAGE_ERROR_USERNAME,
 							MessagesBussines.CODE_ERROR_USERNAME));			
 		}		
 		return entityUser;	

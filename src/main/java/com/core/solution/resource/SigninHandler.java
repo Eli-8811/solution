@@ -33,7 +33,7 @@ public class SigninHandler {
 	@Autowired AuthenticationManager authenticationManager;
 	
 	@PostMapping("/signin")
-	public ResponseEntity<ResponseGeneric<JwtResponseFinal>> getUser(@RequestBody SigninRequest signinRequest) {		
+	public ResponseEntity<ResponseGeneric<JwtResponseFinal>> signin(@RequestBody SigninRequest signinRequest) {		
 		Authentication authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signinRequest.getUsername(), signinRequest.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);		
 		UserDetailService userDetailService = (UserDetailService) authentication.getPrincipal();

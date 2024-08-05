@@ -33,9 +33,9 @@
 	</select>
 
 	<resultMap id="getRolesResult" type="EntityRoleUser">
-		<id column="role_user_id" property="roleUserId" />
-		<id column="user_id" property="userId" />
-		<id column="role_id" property="roleId" />
+		<result column="role_user_id" property="roleUserId" />
+		<result column="user_id" property="userId" />
+		<result column="role_id" property="roleId" />
 		<result column="name" property="name" />
 		<result column="enabled" property="enabled" />
 		<result column="creation_at" property="creationAt" />
@@ -44,18 +44,16 @@
 
 	<select id="getRoles" resultMap="getRolesResult">
 		SELECT
-		B.role_user_id,
-		B.user_id,
-		A.role_id,
-		A.name,
-		B.enabled,
-		B.creation_at,
-		B.modification_at
-		FROM
-		public.role A
+			B.role_user_id,
+			B.user_id,
+			A.role_id,
+			A.name,
+			B.enabled,
+			B.creation_at,
+			B.modification_at
+		FROM public.role A
 		INNER JOIN public.role_user B
-		ON A.role_id =
-		B.role_id
+		ON A.role_id = B.role_id
 		WHERE B.user_id = #{pUserId}
 	</select>
 	
@@ -71,8 +69,7 @@
 		<result column="enabled" property="enabled" />
 		<result column="creation_at" property="creationAt" />
 		<result column="modification_at" property="modificationAt" />
-		<collection property="roles" column="{pUserId=user_id}"
-			select="getRoles" />
+		<collection property="roles" column="{pUserId=user_id}" select="getRoles" />
 	</resultMap>
 
 	<select id="getUser" resultMap="getUserResult">

@@ -29,7 +29,6 @@ public class UserLoadService implements UserDetailsService {
 		try {
 			
 			entityUser = this.userRepository.getUser(username);
-			entityUser.setRoles(entityUser.getRoles());
 			
 		} catch (SolutionException e) {
 			
@@ -39,7 +38,7 @@ public class UserLoadService implements UserDetailsService {
 			
 			e.printStackTrace();
 			
-		}	
+		}		
 		
 		return UserDetailService.build(entityUser);
 		
