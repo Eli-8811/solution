@@ -1,15 +1,24 @@
 package com.core.solution.resource;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.core.solution.bussines.ExcelService;
 import com.core.solution.model.ExcelModel;
+import com.core.solution.model.response.ResponseFile;
+import com.core.solution.model.response.ResponseFileFinal;
+import com.core.solution.model.response.ResponseGeneric;
+import com.core.solution.utils.MessagesResources;
 
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -22,19 +31,41 @@ import lombok.extern.slf4j.Slf4j;
 public class ExcelHandler {
 
 	private final ExcelService excelService;
-	
-	@PostMapping(value = "big/read", consumes= MediaType.MULTIPART_FORM_DATA_VALUE)
-	public void uploadBigFile(@RequestPart(value = "file", required = false ) MultipartFile file) {
-		
+
+	@SneakyThrows
+	@PreAuthorize("hasRole('ADMIN')")
+	@PostMapping(value = "big/read", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public void uploadBigFile(@RequestPart(value = "file", required = false) MultipartFile file) {
+
 		ExcelModel excelModel = this.excelService.uploadBigFile(file);
 		log.info("File name file {} ", excelModel.getNameFile());
-		
+
 	}
-	
+
 	@SneakyThrows
 	@GetMapping("/rewrite")
-	public String rewriteExcelReportUsers() {				
-		return this.excelService.rewriteExcelReportUsers();
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<ResponseGeneric<ResponseFileFinal>> rewriteExcelReportUsers(
+			@RequestParam("datetimeStart") String datetimeStart, 
+			@RequestParam("datetimeEnd") String datetimeEnd) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		ResponseGeneric<ResponseFileFinal> responseGeneric = null;
+		ResponseFileFinal responseFileFinal = new ResponseFileFinal();
+		ResponseFile responseFile = this.excelService.rewriteExcelReportUsers(datetimeStart, datetimeEnd);
+		responseFileFinal.setResponseFile(responseFile);
+		responseGeneric = new ResponseGeneric<>(
+				MessagesResources.SUCCESS, 
+				String.format(MessagesResources.MESSAGE_REPORT_RANGE_USERS, datetimeStart, datetimeEnd), 
+				responseFileFinal);
+		return new ResponseEntity<>(responseGeneric, headers, HttpStatus.OK);
+	}
+
+	@SneakyThrows
+	@PreAuthorize("hasRole('ADMIN')")
+	@PostMapping(value = "upload/afore", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public void uploadFileComisionAfore(@RequestPart(value = "file", required = false) MultipartFile file) {
+		this.excelService.uploadFileComisionAfore(file);
 	}
 	
 }

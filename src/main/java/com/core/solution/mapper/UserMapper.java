@@ -1,5 +1,6 @@
 package com.core.solution.mapper;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -21,8 +22,8 @@ public interface UserMapper {
 
 	void putUser(@Param("userRequest") UserRequest userRequest) throws SolutionException;
 	
-	void deleteUsers() throws SolutionException;
-
 	void signupUser(@Param("signupRequest") SignupRequest signupRequest) throws SolutionException;
+
+	List<EntityUser> getUsersByRangeDate(@Param("datetimeStart") Date datetimeStart, @Param("datetimeEnd") Date datetimeEnd);
 	
 }

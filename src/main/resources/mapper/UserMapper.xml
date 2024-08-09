@@ -31,6 +31,38 @@
 		modification_at
 		FROM public.user
 	</select>
+	
+	<resultMap id="getUsersByRangeDateResult" type="EntityUser">
+		<id column="user_id" property="userId" />
+		<result column="name" property="name" />
+		<result column="lastname" property="lastname" />
+		<result column="username" property="username" />
+		<result column="email" property="email" />
+		<result column="password" property="password" />
+		<result column="age" property="age" />
+		<result column="phone" property="phone" />
+		<result column="enabled" property="enabled" />
+		<result column="creation_at" property="creationAt" />
+		<result column="modification_at" property="modificationAt" />
+	</resultMap>
+
+	<select id="getUsersByRangeDate" resultMap="getUsersByRangeDateResult">
+		SELECT
+			user_id,
+			name,
+			lastname,
+			username,
+			email,
+			password,
+			age,
+			phone,
+			enabled,
+			creation_at,
+			modification_at
+		FROM public.user
+		WHERE creation_at BETWEEN SYMMETRIC #{datetimeStart} AND #{datetimeEnd}
+		ORDER BY creation_at DESC
+	</select>
 
 	<resultMap id="getRolesResult" type="EntityRoleUser">
 		<result column="role_user_id" property="roleUserId" />

@@ -60,7 +60,7 @@ public class UserHandler {
 		responseUserData.setModificationAt(entityUser.getModificationAt());			
 		responseUserFinal.setResponseUserData(responseUserData);
 		responseGeneric = new ResponseGeneric<>(
-				MessagesResources.SUCCESS_GET_USER, 
+				MessagesResources.SUCCESS, 
 				String.format(MessagesResources.MESSAGE_GET_USER, username), 
 				responseUserFinal);
 		return new ResponseEntity<>(responseGeneric, headers, HttpStatus.OK);
@@ -91,7 +91,7 @@ public class UserHandler {
 		}
 		responseUserFinal.setListResponseUserData(listResponseUserData);
 		responseGeneric = new ResponseGeneric<>(
-				MessagesResources.SUCCESS_GET_ALL_USER, 
+				MessagesResources.SUCCESS, 
 				MessagesResources.MESSAGE_GET_ALL_USER,
 				responseUserFinal);
 		return new ResponseEntity<>(responseGeneric, headers, HttpStatus.OK);
@@ -105,9 +105,9 @@ public class UserHandler {
 		ResponseGeneric<String> responseGeneric = null;
 		this.userService.patchUser(userRequest);
 		responseGeneric = new ResponseGeneric<>(
-				MessagesResources.SUCCESS_PATCH_USER, 
+				MessagesResources.SUCCESS, 
 				String.format(MessagesResources.MESSAGE_PATCH_USER, userRequest.getUsername()), 
-				MessagesResources.DATA_PATCH_USER);
+				MessagesResources.DATA_NULL);
 		return new ResponseEntity<>(responseGeneric, headers, HttpStatus.OK);
 	}
 
@@ -119,9 +119,9 @@ public class UserHandler {
 		ResponseGeneric<String> responseGeneric = null;
 		this.userService.putUser(userRequest);
 		responseGeneric = new ResponseGeneric<>(
-				MessagesResources.SUCCESS_PUT_USER, 
+				MessagesResources.SUCCESS, 
 				String.format(MessagesResources.MESSAGE_PUT_USER, userRequest.getUsername()), 
-				MessagesResources.DATA_PUT_USER);		
+				MessagesResources.DATA_NULL);		
 		return new ResponseEntity<>(responseGeneric, headers, HttpStatus.OK);
 	}
 

@@ -22,16 +22,16 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class AuthTokenFilter extends OncePerRequestFilter {
-	
-	@Autowired private JwtUtils jwtUtils;
 
-	@Autowired private UserLoadService userLoadService;
+	@Autowired
+	private JwtUtils jwtUtils;
+
+	@Autowired
+	private UserLoadService userLoadService;
 
 	@Override
-	protected void doFilterInternal(
-			HttpServletRequest request, 
-			HttpServletResponse response, 
-			FilterChain filterChain) throws ServletException, IOException {		
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
 		try {
 			String jwt = this.parseJwt(request);
 			if (jwt != null && this.jwtUtils.validateJwtToken(jwt)) {
@@ -55,5 +55,5 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 		}
 		return null;
 	}
-	
+
 }

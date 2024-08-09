@@ -93,3 +93,30 @@ SELECT user_id, name, lastname, username, email, password, age, phone, enabled, 
 FROM public."user";
 
 
+SELECT user_id, name, lastname, username, email, password, age, phone, enabled, creation_at, modification_at
+FROM public."user";
+
+UPDATE public.role
+SET name = 'ROLE_ADMIN'
+WHERE role_id = 1
+
+UPDATE public.role
+SET name = 'ROLE_USER'
+WHERE role_id = 2
+
+UPDATE public.role
+SET name = 'ROLE_DEFAULT'
+WHERE role_id = 3
+
+SELECT role_user_id, role_id, user_id, enabled, creation_at, modification_at
+FROM public.role_user;
+
+INSERT INTO public.role_user(
+role_id, user_id, enabled, creation_at, modification_at)
+VALUES (1, 1, true, now(), now());
+INSERT INTO public.role_user(
+role_id, user_id, enabled, creation_at, modification_at)
+VALUES (2, 1, true, now(), now());
+INSERT INTO public.role_user(
+role_id, user_id, enabled, creation_at, modification_at)
+VALUES (3, 1, true, now(), now());

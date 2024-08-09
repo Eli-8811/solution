@@ -1,30 +1,40 @@
 package com.core.solution.bussines;
 
 import java.io.ByteArrayOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.DataFormat;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.IndexedColorMap;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+
+import com.monitorjbl.xlsx.StreamingReader;
 
 import com.core.solution.access.UserRepository;
 import com.core.solution.exception.SolutionData;
@@ -34,9 +44,10 @@ import com.core.solution.model.ExcelModel;
 import com.core.solution.model.RowModel;
 import com.core.solution.model.SheetModel;
 import com.core.solution.model.entity.EntityUser;
+import com.core.solution.model.response.ResponseFile;
 import com.core.solution.utils.MemoryUtil;
 import com.core.solution.utils.MessagesBussines;
-import com.monitorjbl.xlsx.StreamingReader;
+import com.core.solution.utils.Constants;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +60,7 @@ public class ExcelService {
 	private final ResourceLoader resourceLoader;
 
 	private final UserRepository userRepository;
-	
+
 	public ExcelModel uploadBigFile(MultipartFile file) {
 		MemoryUtil.showMemoryStats();
 		long init = MemoryUtil.timeInit();
@@ -91,20 +102,24 @@ public class ExcelService {
 		return excelModel;
 	}
 
-	public String rewriteExcelReportUsers() throws SolutionException {
+	public ResponseFile rewriteExcelReportUsers(String datetimeInit, String datetimeEnd)
+			throws SolutionException, ParseException {
 
 		MemoryUtil.showMemoryStats();
 		long init = MemoryUtil.timeInit();
 		log.info("Time init {} ", init);
 
 		Integer line = 1;
-		String base64 = null;
+		Resource resource = resourceLoader.getResource("classpath:".concat(Constants.REPORT_RANGE_DATE_USERS));
+		SimpleDateFormat sdf = new SimpleDateFormat(Constants.YYYY_MM_DD_HH_MM_SS);
+		ResponseFile responseFile = new ResponseFile();
 
-		Resource resource = resourceLoader.getResource("classpath:".concat("/excel/template_report_users.xlsx"));
+		Date dateStart = sdf.parse(datetimeInit);
+		Date dateEnd = sdf.parse(datetimeEnd);
 
-		try (FileInputStream fileInputStream = new FileInputStream(resource.getFile().getAbsolutePath())) {
+		try (FileInputStream fis = new FileInputStream(resource.getFile().getAbsolutePath())) {
 
-			Workbook workbook = new XSSFWorkbook(fileInputStream);
+			Workbook workbook = new XSSFWorkbook(fis);
 
 			DataFormat format = workbook.createDataFormat();
 			CreationHelper createHelper = workbook.getCreationHelper();
@@ -122,13 +137,13 @@ public class ExcelService {
 			cellStyleNumber.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 			cellStyleNumber.setFillForegroundColor(grey);
 
-			cellStyleDate.setDataFormat(createHelper.createDataFormat().getFormat("dd/MMM/yyyy HH:mm:ss"));
+			cellStyleDate.setDataFormat(createHelper.createDataFormat().getFormat("yyyy/MM/dd HH:mm:ss"));
 			cellStyleDate.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 			cellStyleDate.setFillForegroundColor(grey);
 
 			Sheet sheet = workbook.getSheetAt(0);
 
-			List<EntityUser> listEntityUser = this.userRepository.getUsers();
+			List<EntityUser> listEntityUser = this.userRepository.getUsersByRangeDate(dateStart, dateEnd);
 
 			for (int j = 0; j < listEntityUser.size(); j++) {
 
@@ -177,7 +192,9 @@ public class ExcelService {
 			}
 
 			this.evaluateFormula(workbook);
-			base64 = this.generateDataBase64(workbook);
+			responseFile = this.generateDataBase64(workbook);
+			responseFile.setFileName(resource.getFile().getName());
+			responseFile.setAbsolutePath(resource.getFile().getAbsolutePath());
 
 		} catch (IOException e) {
 
@@ -193,23 +210,67 @@ public class ExcelService {
 		long end = MemoryUtil.timeEnd(init);
 		log.info("Time end {} ", end);
 
-		return base64;
+		return responseFile;
 
 	}
 
-	private String generateDataBase64(Workbook workbook) throws SolutionException {
-		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		try {
-			workbook.write(outputStream);
-		} catch (IOException e) {
-			throw new SolutionException(MessagesBussines.MESSAGE_ERROR_GENERATE_B64,
-					new SolutionData(MessagesBussines.SUCCESS, MessagesBussines.TITLE_ERROR_GENERATE_B64,
-							String.format(MessagesBussines.MESSAGE_ERROR_GENERATE_B64, "template.xlsx"),
-							MessagesBussines.CODE_ERROR_GENERATE_B64),
-					e);
+	public void uploadFileComisionAfore(MultipartFile file) {
 
+		Workbook wb = null;
+		Map<Integer, String> mapHeader = null;
+
+		try {
+
+			byte[] xlsBytes = file.getInputStream().readAllBytes();
+			wb = WorkbookFactory.create(new ByteArrayInputStream(xlsBytes));
+
+			for (int i = 0; i < wb.getNumberOfSheets(); i++) {
+
+				String name = wb.getSheetName(i);
+				Sheet sheet = wb.getSheet(name);
+
+				mapHeader = this.getCompositionHeader(sheet);
+
+				for (Map.Entry<Integer, String> entryHeader : mapHeader.entrySet()) {
+					log.info(entryHeader.getValue());
+					this.getCompositionBody(sheet, entryHeader.getKey());
+				}
+
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		return Base64.getEncoder().encodeToString(outputStream.toByteArray());
+
+	}
+
+	private void getCompositionBody(Sheet sheet, int column) {
+		int rowInit = 1;
+		for (Row row : sheet) {			
+			if(row.getRowNum() > rowInit) {			
+				Cell cell = this.getCell(row, column);
+				Object value = this.getCellValue(cell);
+				log.info("Process row {} ", String.valueOf(row.getRowNum()).concat(" column ").concat(String.valueOf(column)).concat(" cell ").concat(String.valueOf(value)));	
+			}
+        }
+	}
+
+
+	private Map<Integer, String> getCompositionHeader(Sheet sheet) {
+		int rowInit = 1;
+		int columnInit = 0;
+		Row row = sheet.getRow(rowInit);
+		Cell cell = null;
+		String compositionHeader = null;
+		int position = (row.getLastCellNum() - 1);
+		Map<Integer, String> map = new HashMap<>();
+		for (int startColumn = columnInit; startColumn <= position; startColumn++) {
+			cell = row.getCell(startColumn);
+			compositionHeader = cell.getStringCellValue();
+			log.info("Process column ".concat(String.valueOf(startColumn)).concat(" value ".concat(compositionHeader)));
+			map.put(startColumn, compositionHeader);
+		}
+		return map;
 	}
 
 	private void evaluateFormula(Workbook workbook) {
@@ -222,6 +283,69 @@ public class ExcelService {
 				}
 			}
 		}
+	}
+	
+	private Cell getCell(Row row, int cellNum) {
+		Cell cell = row.getCell(cellNum);
+		if ( cell != null ) {
+			return cell;
+		}
+		return row.createCell(cellNum);
+	}
+	
+	private Object getCellValue(Cell cell) {
+		if (cell == null) {
+			return null;
+		}
+		switch (cell.getCellType()) {
+		case STRING:
+			return cell.getStringCellValue();
+		case NUMERIC:
+			if (DateUtil.isCellDateFormatted(cell)) {
+				return cell.getDateCellValue();
+			} else {
+				return cell.getNumericCellValue();
+			}
+		case BOOLEAN:
+			return cell.getBooleanCellValue();
+		case FORMULA:
+			FormulaEvaluator evaluator = cell.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
+			switch (evaluator.evaluateInCell(cell).getCellType()) {
+			case STRING:
+				return evaluator.evaluateInCell(cell).getStringCellValue();
+			case NUMERIC:
+				return evaluator.evaluateInCell(cell).getNumericCellValue();
+			case BOOLEAN:
+				return evaluator.evaluateInCell(cell).getBooleanCellValue();
+			default:
+				return null;
+			}
+		case ERROR:
+			return "Error: " + cell.getErrorCellValue();
+		default:
+			return null;
+		}
+	}
+
+	private ResponseFile generateDataBase64(Workbook workbook) throws SolutionException {
+		String base64 = null;
+		ResponseFile responseFile = new ResponseFile();
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		try {
+			workbook.write(outputStream);
+			base64 = Base64.getEncoder().encodeToString(outputStream.toByteArray());
+			responseFile.setBase64(base64);
+			double value = (double) outputStream.size() / 1024;
+			responseFile.setFileZize(String.valueOf(value).concat(" KB"));
+		} catch (IOException e) {
+			throw new SolutionException(MessagesBussines.MESSAGE_ERROR_GENERATE_B64,
+					new SolutionData(MessagesBussines.SUCCESS, MessagesBussines.TITLE_ERROR_GENERATE_B64,
+							String.format(MessagesBussines.MESSAGE_ERROR_GENERATE_B64, "template.xlsx"),
+							MessagesBussines.CODE_ERROR_GENERATE_B64),
+					e);
+
+		}
+		return responseFile;
 	}
 
 }

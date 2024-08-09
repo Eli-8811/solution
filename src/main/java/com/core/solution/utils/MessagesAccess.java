@@ -32,4 +32,9 @@ public class MessagesAccess {
 	public static final String MESSAGE_ERROR_DB_CRATE_USER = "Creacion de usuario incorrecta.";
 	public static final Integer CODE_ERROR_DB_CRATE_USER = 3006;
 	
+	public static final String TITLE_ERROR_DB_GET_RANGE_USER = "Error en la busqueda por fechas.";
+	public static final String MESSAGE_ERROR_DB_GET_RANGE_USER = "Error en la busqueda general con fecha inicio %s y fecha fin %s.";
+	public static final Integer CODE_ERROR_DB_GET_RANGE_USER = 3007;
+	
+	
 }

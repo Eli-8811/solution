@@ -12,12 +12,12 @@ public class MemoryUtil {
     public static void showMemoryStats() {    	
         int mb = 1024*1024;
         Runtime runtime = Runtime.getRuntime();        
-        log.info("######## Heap utilization statistics [MB] start ##################");   
-        log.info("################################################ Used Memory {} ", (runtime.totalMemory() - runtime.freeMemory()) / mb);        
-        log.info("################################################ Free Memory {} ", runtime.freeMemory() / mb);        
-        log.info("################################################ Total Memory {} ", runtime.totalMemory() / mb);        
-        log.info("################################################ Max Memory {} ", runtime.maxMemory() / mb);
-        log.info("######## Heap utilization statistics [MB] finish #################");
+        log.info("######## Heap utilization statistics [MB] start ####################");   
+        log.info("################################################## Used Memory {} ", (runtime.totalMemory() - runtime.freeMemory()) / mb);        
+        log.info("################################################## Free Memory {} ", runtime.freeMemory() / mb);        
+        log.info("################################################## Total Memory {} ", runtime.totalMemory() / mb);        
+        log.info("################################################## Max Memory {} ", runtime.maxMemory() / mb);
+        log.info("######## Heap utilization statistics [MB] end   ####################");
     }
     
     public static long timeInit(){

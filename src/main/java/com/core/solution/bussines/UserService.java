@@ -15,6 +15,7 @@ import com.core.solution.model.entity.EntityUser;
 import com.core.solution.model.payload.SignupRequest;
 import com.core.solution.model.payload.UserRequest;
 import com.core.solution.utils.MessagesBussines;
+import com.core.solution.utils.Constants;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,15 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 public class UserService {
 
-	private static final int MIN_LENGTH = 8;
-    private static final String LOWERCASE_PATTERN = "(.*[a-z].*)";
-    private static final String UPPERCASE_PATTERN = "(.*[A-Z].*)";
-    private static final String DIGIT_PATTERN = "(.*[0-9].*)";
-    private static final String SPECIAL_CHARACTER_PATTERN = "(.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*)";       
-    private static final String LETTERS_ONLY_PATTERN = "^[a-zA-Z]+$";
-    private static final String PHONE_PATTERN = "^\\d{10}$";
-    private static final String EMAIL_PATTERN = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-    
+
 	private final UserRepository userRepository;
 	private final PasswordEncoder encoder;
 
@@ -159,22 +152,22 @@ public class UserService {
         if (username == null || username.isEmpty()) {
             return false;
         }
-        return Pattern.matches(LETTERS_ONLY_PATTERN, username);
+        return Pattern.matches(Constants.LETTERS_ONLY_PATTERN, username);
     }
 	
     private boolean isValidPassword(String password) {
-        if (password == null || password.length() < MIN_LENGTH) {
+        if (password == null || password.length() < Constants.MIN_LENGTH) {
             return false;
         }
-        boolean hasLowercase = Pattern.matches(LOWERCASE_PATTERN, password);
-        boolean hasUppercase = Pattern.matches(UPPERCASE_PATTERN, password);
-        boolean hasDigit = Pattern.matches(DIGIT_PATTERN, password);
-        boolean hasSpecialChar = Pattern.matches(SPECIAL_CHARACTER_PATTERN, password);
+        boolean hasLowercase = Pattern.matches(Constants.LOWERCASE_PATTERN, password);
+        boolean hasUppercase = Pattern.matches(Constants.UPPERCASE_PATTERN, password);
+        boolean hasDigit = Pattern.matches(Constants.DIGIT_PATTERN, password);
+        boolean hasSpecialChar = Pattern.matches(Constants.SPECIAL_CHARACTER_PATTERN, password);
         return hasLowercase && hasUppercase && hasDigit && hasSpecialChar;
     }
 
     private boolean isValidPhone(Long phone) {
-        Pattern p = Pattern.compile(PHONE_PATTERN);
+        Pattern p = Pattern.compile(Constants.PHONE_PATTERN);
         Matcher m = p.matcher(phone.toString());
         return (m.matches());
     }
@@ -183,7 +176,7 @@ public class UserService {
         if (email == null || email.isEmpty()) {
             return false;
         }
-        return Pattern.matches(EMAIL_PATTERN, email);
+        return Pattern.matches(Constants.EMAIL_PATTERN, email);
     }
     
 }

@@ -1,5 +1,6 @@
 package com.core.solution.access;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -91,6 +92,22 @@ public class UserRepository extends GenericRepository {
 							          MessagesAccess.CODE_ERROR_DB_CRATE_USER));			
 		}		
 		return signupRequest.getUserId();		
+	}
+
+	public List<EntityUser> getUsersByRangeDate(Date datetimeStart, Date datetimeEnd) throws SolutionException {
+		UserMapper mapper = super.getSqlSession().getMapper(UserMapper.class);
+		List<EntityUser> listEntityUser = null;
+		try {			
+			listEntityUser = mapper.getUsersByRangeDate(datetimeStart, datetimeEnd);			
+		} catch (Exception e) {			
+			throw new SolutionException(
+					String.format(MessagesAccess.MESSAGE_ERROR_DB_GET_RANGE_USER, datetimeStart, datetimeEnd),
+					new SolutionData(MessagesAccess.SUCCESS,
+									  MessagesAccess.TITLE_ERROR_DB_GET_RANGE_USER,
+							          e.getCause().toString(),
+							          MessagesAccess.CODE_ERROR_DB_GET_RANGE_USER));			
+		}				
+		return listEntityUser;
 	}
 	
 }
