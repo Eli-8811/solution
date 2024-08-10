@@ -79,6 +79,8 @@ public class WebSecurityConfig {
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers("/auth/**").permitAll()
+						.requestMatchers("/user/**").permitAll()
+						.requestMatchers("/excel/**").permitAll()
 						.requestMatchers("/earomero-api-docs/**").permitAll()
 						.requestMatchers("/swagger-ui/**")
 						.permitAll().anyRequest().authenticated());
