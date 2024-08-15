@@ -5,9 +5,11 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class ExcelRow {
+public class ExcelHeader {
 
 	private Integer rowNumber;
-	private List<ExcelCell> listCellModel;
+	private Integer columnNumber;
+	
+	private List<String> listHeaderName;
 	
 }

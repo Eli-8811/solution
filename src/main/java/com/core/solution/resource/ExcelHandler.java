@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.core.solution.bussines.ExcelService;
-import com.core.solution.model.ExcelModel;
+import com.core.solution.model.ExcelBase;
 import com.core.solution.model.response.ResFile;
 import com.core.solution.model.response.ResFileFinal;
 import com.core.solution.model.response.ResGeneric;
@@ -37,7 +37,7 @@ public class ExcelHandler {
 	@PostMapping(value = "big/read", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public void uploadBigFile(@RequestPart(value = "file", required = false) MultipartFile file) {
 
-		ExcelModel excelModel = this.excelService.uploadBigFile(file);
+		ExcelBase excelModel = this.excelService.uploadBigFile(file);
 		log.info("File name file {} ", excelModel.getNameFile());
 
 	}

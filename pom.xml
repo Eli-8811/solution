@@ -56,7 +56,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
@@ -72,12 +72,6 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>1.18.20</version><!--$NO-MVN-MAN-VER$ -->
-		</dependency>
-
-		<dependency>
-			<groupId>org.junit.vintage</groupId>
-			<artifactId>junit-vintage-engine</artifactId>
-			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -196,6 +190,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.33</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis</artifactId>
 			<version>${org.mybatis.version}</version>
@@ -252,17 +252,23 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.junit.vintage</groupId>
+			<artifactId>junit-vintage-engine</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+
 	</dependencies>
 
 	<profiles>
@@ -309,17 +315,17 @@
 					<excludes>
 						<exclude>com.core.solution.access/**</exclude>
 						<exclude>
-						com.core.solution.config/**</exclude>
+							com.core.solution.config/**</exclude>
 						<exclude>
-						com.core.solution.mapper/**</exclude>					
+							com.core.solution.mapper/**</exclude>
 						<exclude>
-						com.core.solution.model/**</exclude>
+							com.core.solution.model/**</exclude>
 						<exclude>
-						com.core.solution.model.entity/**</exclude>
+							com.core.solution.model.entity/**</exclude>
 						<exclude>
-						com.core.solution.model.payload/**</exclude>
+							com.core.solution.model.payload/**</exclude>
 						<exclude>
-						com.core.solution.model.response/**</exclude>						
+							com.core.solution.model.response/**</exclude>
 					</excludes>
 				</configuration>
 

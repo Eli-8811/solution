@@ -3,8 +3,8 @@ package com.core.solution.model;
 import lombok.Data;
 
 @Data
-public class ExcelCell {
+public class ExcelItem {
 
-	private String cellValue;
+	private String value;
 	
 }

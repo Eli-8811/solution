@@ -5,9 +5,9 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class ExcelModel {
+public class ExcelBase {
 
 	private String nameFile;
-	private List<ExcelSheetModel> listSheetModel;
+	private List<ExcelSheet> listSheetModel;
 	
 }

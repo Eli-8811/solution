@@ -49,9 +49,11 @@ public class AforeHandler {
 			ResConfigFinal resConfigFinal = new ResConfigFinal();
 			resConfigFinal.setConfigId(dataEntity.getConfigId());
 			resConfigFinal.setType(dataEntity.getType());
+			resConfigFinal.setRegimen(dataEntity.getRegimen());
 			resConfigFinal.setNameTable(dataEntity.getNameTable());
 			resConfigFinal.setNameFile(dataEntity.getNameFile());
-			resConfigFinal.setRegimen(dataEntity.getRegimen());
+			resConfigFinal.setRowInit(dataEntity.getRowInit());
+			resConfigFinal.setColumnInit(dataEntity.getColumnInit());
 			resConfigFinal.setEnabled(dataEntity.getEnabled());
 			resConfigFinal.setCreationAt(dataEntity.getCreationAt());
 			resConfigFinal.setModificationAt(dataEntity.getModificationAt());

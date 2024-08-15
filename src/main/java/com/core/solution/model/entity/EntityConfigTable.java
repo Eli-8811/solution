@@ -15,9 +15,11 @@ public class EntityConfigTable {
 
 	private Integer configId;
 	private String type;
+	private String regimen;
 	private String nameTable;
 	private String nameFile;
-	private String regimen;
+	private Integer rowInit;
+	private Integer columnInit;
 	private Boolean enabled;
 	private Date creationAt;
 	private Date modificationAt;

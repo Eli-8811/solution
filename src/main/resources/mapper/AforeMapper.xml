@@ -5,9 +5,11 @@
 	<resultMap id="getConfigTablesResult" type="EntityConfigTable">
 		<id column="config_id" property="configId" />
 		<result column="type" property="type" />
+		<result column="regimen" property="regimen" />
 		<result column="name_table" property="nameTable" />
 		<result column="name_file" property="nameFile" />
-		<result column="regimen" property="regimen" />
+		<result column="row_init" property="rowInit" />
+		<result column="column_init" property="columnInit" />		
 		<result column="enabled" property="enabled" />
 		<result column="creation_at" property="creationAt" />
 		<result column="modification_at" property="modificationAt" />
@@ -16,15 +18,16 @@
 	<select id="getConfigTables" resultMap="getConfigTablesResult">
 		SELECT 
 			config_id,
+			regimen,
 			type, 
 			name_table, 
 			name_file,
-			regimen,
+			row_init,
+			column_init,			
 			enabled, 
 			creation_at, 
 			modification_at
-		FROM public.config_autoservicio
-		WHERE enabled IS NOT FALSE
+		FROM config_autoservice
 	</select>
 
 </mapper>

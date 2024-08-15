@@ -39,10 +39,10 @@ import com.monitorjbl.xlsx.StreamingReader;
 import com.core.solution.access.UserRepository;
 import com.core.solution.exception.SolutionData;
 import com.core.solution.exception.SolutionException;
-import com.core.solution.model.ExcelCellModel;
-import com.core.solution.model.ExcelModel;
-import com.core.solution.model.ExcelRowModel;
-import com.core.solution.model.ExcelSheetModel;
+import com.core.solution.model.ExcelCell;
+import com.core.solution.model.ExcelBase;
+import com.core.solution.model.ExcelRow;
+import com.core.solution.model.ExcelSheet;
 import com.core.solution.model.entity.EntityUser;
 import com.core.solution.model.response.ResFile;
 import com.core.solution.utils.MemoryUtil;
@@ -61,29 +61,29 @@ public class ExcelService {
 
 	private final UserRepository userRepository;
 
-	public ExcelModel uploadBigFile(MultipartFile file) {
+	public ExcelBase uploadBigFile(MultipartFile file) {
 		MemoryUtil.showMemoryStats();
 		long init = MemoryUtil.timeInit();
 		log.info("Time init {} ", init);
 		InputStream is = null;
-		ExcelModel excelModel = new ExcelModel();
+		ExcelBase excelModel = new ExcelBase();
 		try {
 			is = file.getInputStream();
 			Workbook wb = StreamingReader.builder().rowCacheSize(100).bufferSize(8192).open(is);
-			List<ExcelSheetModel> listSheetModel = new ArrayList<>();
+			List<ExcelSheet> listSheetModel = new ArrayList<>();
 			for (Sheet sheet : wb) {
-				List<ExcelRowModel> listRowModel = new ArrayList<>();
-				ExcelSheetModel sheetModel = new ExcelSheetModel();
+				List<ExcelRow> listRowModel = new ArrayList<>();
+				ExcelSheet sheetModel = new ExcelSheet();
 				sheetModel.setSheetName(sheet.getSheetName());
 				listSheetModel.add(sheetModel);
 				log.info("Process sheet {} ", sheetModel.getSheetName());
 				for (Row row : sheet) {
-					List<ExcelCellModel> listCellModel = new ArrayList<>();
-					ExcelRowModel rowModel = new ExcelRowModel();
+					List<ExcelCell> listCellModel = new ArrayList<>();
+					ExcelRow rowModel = new ExcelRow();
 					rowModel.setRowNumber(row.getRowNum());
 					listRowModel.add(rowModel);
 					for (Cell cell : row) {
-						ExcelCellModel cellModel = new ExcelCellModel();
+						ExcelCell cellModel = new ExcelCell();
 						cellModel.setCellValue(cell.getStringCellValue());
 						listCellModel.add(cellModel);
 					}

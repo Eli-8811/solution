@@ -29,7 +29,7 @@
 		enabled,
 		creation_at,
 		modification_at
-		FROM public.user
+		FROM user
 	</select>
 	
 	<resultMap id="getUsersByRangeDateResult" type="EntityUser">
@@ -59,7 +59,7 @@
 			enabled,
 			creation_at,
 			modification_at
-		FROM public.user
+		FROM user
 		WHERE creation_at BETWEEN SYMMETRIC #{datetimeStart} AND #{datetimeEnd}
 		ORDER BY creation_at DESC
 	</select>
@@ -83,8 +83,8 @@
 			B.enabled,
 			B.creation_at,
 			B.modification_at
-		FROM public.role A
-		INNER JOIN public.role_user B
+		FROM role A
+		INNER JOIN role_user B
 		ON A.role_id = B.role_id
 		WHERE B.user_id = #{pUserId}
 	</select>
@@ -117,7 +117,7 @@
 		enabled,
 		creation_at,
 		modification_at
-		FROM public.user
+		FROM user
 		WHERE username = #{username}
 	</select>
 	
@@ -147,7 +147,7 @@
 	</update>
 	
 	<update id="putUser">
-		UPDATE public.user
+		UPDATE user
 		SET name = #{userRequest.name},
 			lastname = #{userRequest.lastname},
 			email = #{userRequest.email},
@@ -160,7 +160,7 @@
 
 	<insert id="signupUser" useGeneratedKeys="true"
 		keyProperty="signupRequest.userId" keyColumn="user_id">
-		INSERT INTO public.user(
+		INSERT INTO user(
 		name,
 		lastname,
 		username,

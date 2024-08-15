@@ -5,8 +5,8 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class ExcelSheetModel {
+public class ExcelSheet {
 
 	private String sheetName;
-	private List<ExcelRowModel> listRowModel;
+	private List<ExcelRow> listRowModel;
 }
