@@ -52,4 +52,9 @@ public class MessagesBussines {
 	public static final String MESSAGE_ERROR_GENERATE_B64 = "El base64 no logro generarse para el archivo %s.";
 	public static final Integer CODE_ERROR_GENERATE_B64 = 1011;
 	
+	public static final String TITLE_ERROR_GET_ALL_CONFIG_AUTO = "Sin resultado.";
+	public static final String MESSAGE_ERROR_GET_ALL_CONFIG_AUTO = "No se pudo hacer la consulta general de configuracion autoservicio.";
+	public static final Integer CODE_ERROR_GET_ALL_CONFIG_AUTO = 2009;
+	
+	
 }

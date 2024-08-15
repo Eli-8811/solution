@@ -19,10 +19,10 @@ import com.core.solution.bussines.UserService;
 
 import com.core.solution.model.entity.EntityUser;
 import com.core.solution.model.payload.UserRequest;
-import com.core.solution.model.response.ResponseGeneric;
-import com.core.solution.model.response.ResponseUserData;
-import com.core.solution.model.response.ResponseUserFinal;
-import com.core.solution.model.response.ResponseUserListFinal;
+import com.core.solution.model.response.ResGeneric;
+import com.core.solution.model.response.ResUserData;
+import com.core.solution.model.response.ResUserFinal;
+import com.core.solution.model.response.ResUserListFinal;
 import com.core.solution.utils.MessagesResources;
 
 import lombok.SneakyThrows;
@@ -39,12 +39,12 @@ public class UserHandler {
 
 	@SneakyThrows
 	@GetMapping(MessagesResources.MAPPING_GET)
-	public ResponseEntity<ResponseGeneric<ResponseUserFinal>> getUser(@RequestParam("username") String username) {
+	public ResponseEntity<ResGeneric<ResUserFinal>> getUser(@RequestParam("username") String username) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		ResponseUserFinal responseUserFinal = new ResponseUserFinal();
-		ResponseUserData responseUserData = new ResponseUserData();		
-		ResponseGeneric<ResponseUserFinal> responseGeneric = null;
+		ResUserFinal responseUserFinal = new ResUserFinal();
+		ResUserData responseUserData = new ResUserData();		
+		ResGeneric<ResUserFinal> responseGeneric = null;
 		EntityUser entityUser = null;
 		entityUser = this.userService.getUser(username.trim());
 		responseUserData.setUserId(entityUser.getUserId());
@@ -59,7 +59,7 @@ public class UserHandler {
 		responseUserData.setCreationAt(entityUser.getCreationAt());
 		responseUserData.setModificationAt(entityUser.getModificationAt());			
 		responseUserFinal.setResponseUserData(responseUserData);
-		responseGeneric = new ResponseGeneric<>(
+		responseGeneric = new ResGeneric<>(
 				MessagesResources.SUCCESS, 
 				String.format(MessagesResources.MESSAGE_GET_USER, username), 
 				responseUserFinal);
@@ -68,14 +68,14 @@ public class UserHandler {
 
 	@SneakyThrows
 	@GetMapping(MessagesResources.MAPPING_GET_ALL)
-	public ResponseEntity<ResponseGeneric<ResponseUserListFinal>> getUsers() {
+	public ResponseEntity<ResGeneric<ResUserListFinal>> getUsers() {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);		
-		ResponseUserListFinal responseUserFinal = new ResponseUserListFinal();
-		List<ResponseUserData> listResponseUserData = new ArrayList<>();
-		ResponseGeneric<ResponseUserListFinal> responseGeneric = null;
+		ResUserListFinal responseUserFinal = new ResUserListFinal();
+		List<ResUserData> listResponseUserData = new ArrayList<>();
+		ResGeneric<ResUserListFinal> responseGeneric = null;
 		for (EntityUser entityUser : this.userService.getUsers()) {
-			ResponseUserData responseUserData = new ResponseUserData();
+			ResUserData responseUserData = new ResUserData();
 			responseUserData.setUserId(entityUser.getUserId());
 			responseUserData.setName(entityUser.getName());
 			responseUserData.setLastname(entityUser.getLastname());
@@ -90,7 +90,7 @@ public class UserHandler {
 			listResponseUserData.add(responseUserData);
 		}
 		responseUserFinal.setListResponseUserData(listResponseUserData);
-		responseGeneric = new ResponseGeneric<>(
+		responseGeneric = new ResGeneric<>(
 				MessagesResources.SUCCESS, 
 				MessagesResources.MESSAGE_GET_ALL_USER,
 				responseUserFinal);
@@ -99,12 +99,12 @@ public class UserHandler {
 	
 	@SneakyThrows
 	@PatchMapping(MessagesResources.MAPPING_PATCH)
-	public ResponseEntity<ResponseGeneric<String>> patchUser(@RequestBody UserRequest userRequest) {
+	public ResponseEntity<ResGeneric<String>> patchUser(@RequestBody UserRequest userRequest) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		ResponseGeneric<String> responseGeneric = null;
+		ResGeneric<String> responseGeneric = null;
 		this.userService.patchUser(userRequest);
-		responseGeneric = new ResponseGeneric<>(
+		responseGeneric = new ResGeneric<>(
 				MessagesResources.SUCCESS, 
 				String.format(MessagesResources.MESSAGE_PATCH_USER, userRequest.getUsername()), 
 				MessagesResources.DATA_NULL);
@@ -113,12 +113,12 @@ public class UserHandler {
 
 	@SneakyThrows
 	@PutMapping(MessagesResources.MAPPING_PUT)
-	public ResponseEntity<ResponseGeneric<String>> putUser(@RequestBody UserRequest userRequest) {
+	public ResponseEntity<ResGeneric<String>> putUser(@RequestBody UserRequest userRequest) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		ResponseGeneric<String> responseGeneric = null;
+		ResGeneric<String> responseGeneric = null;
 		this.userService.putUser(userRequest);
-		responseGeneric = new ResponseGeneric<>(
+		responseGeneric = new ResGeneric<>(
 				MessagesResources.SUCCESS, 
 				String.format(MessagesResources.MESSAGE_PUT_USER, userRequest.getUsername()), 
 				MessagesResources.DATA_NULL);		

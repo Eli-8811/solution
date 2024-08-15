@@ -9,7 +9,7 @@ public class MessagesAccess {
 	public static final boolean SUCCESS = false;
 	
 	public static final String TITLE_ERROR_DB_GET_ALL_USER = "Error en el servidor.";
-	public static final String MESSAGE_ERROR_DB_GET_ALL_USER = "Error en la busqueda general.";
+	public static final String MESSAGE_ERROR_DB_GET_ALL_USER = "Error en la busqueda general de usuarios.";
 	public static final Integer CODE_ERROR_DB_GET_ALL_USER = 3001;
 	
 	public static final String TITLE_ERROR_DB_GET_USER = "Error en el servidor.";
@@ -36,5 +36,8 @@ public class MessagesAccess {
 	public static final String MESSAGE_ERROR_DB_GET_RANGE_USER = "Error en la busqueda general con fecha inicio %s y fecha fin %s.";
 	public static final Integer CODE_ERROR_DB_GET_RANGE_USER = 3007;
 	
+	public static final String TITLE_ERROR_DB_GET_ALL_CONFIG_AUTO = "Error en el servidor.";
+	public static final String MESSAGE_ERROR_DB_GET_ALL_CONFIG_AUTO = "Error en la busqueda de configuracion autoservicio.";
+	public static final Integer CODE_ERROR_DB_GET_ALL_CONFIG_AUTO = 3008;
 	
 }

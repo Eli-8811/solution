@@ -81,6 +81,7 @@ public class WebSecurityConfig {
 						.requestMatchers("/auth/**").permitAll()
 						.requestMatchers("/user/**").permitAll()
 						.requestMatchers("/excel/**").permitAll()
+						.requestMatchers("/autoservice/**").permitAll()
 						.requestMatchers("/earomero-api-docs/**").permitAll()
 						.requestMatchers("/swagger-ui/**")
 						.permitAll().anyRequest().authenticated());

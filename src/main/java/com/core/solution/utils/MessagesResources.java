@@ -24,4 +24,8 @@ public class MessagesResources {
 	public static final String MESSAGE_PUT_USER = "Put user with username %s successfully.";
 	public static final String MESSAGE_REPORT_RANGE_USERS = "Reporte de usuarios por fecha de creacion desde %s hasta %s.";
 	
+	public static final String MESSAGE_GET_ALL_CONFIG_AUTO = "Get all config autoservicio successfully.";
+	
+	public static final String MESSAGE_UPDATE_AUTO_VALUES = "Updated values successfully.";
+	
 }

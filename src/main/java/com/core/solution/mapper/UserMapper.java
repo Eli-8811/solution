@@ -24,6 +24,6 @@ public interface UserMapper {
 	
 	void signupUser(@Param("signupRequest") SignupRequest signupRequest) throws SolutionException;
 
-	List<EntityUser> getUsersByRangeDate(@Param("datetimeStart") Date datetimeStart, @Param("datetimeEnd") Date datetimeEnd);
+	List<EntityUser> getUsersByRangeDate(@Param("datetimeStart") Date datetimeStart, @Param("datetimeEnd") Date datetimeEnd) throws SolutionException;	
 	
 }

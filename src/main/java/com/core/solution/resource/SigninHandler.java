@@ -21,7 +21,7 @@ import com.core.solution.bussines.UserDetailService;
 import com.core.solution.model.payload.SigninRequest;
 import com.core.solution.model.response.JwtResponse;
 import com.core.solution.model.response.JwtResponseFinal;
-import com.core.solution.model.response.ResponseGeneric;
+import com.core.solution.model.response.ResGeneric;
 import com.core.solution.utils.JwtUtils;
 
 import lombok.AllArgsConstructor;
@@ -38,7 +38,7 @@ public class SigninHandler {
 	@Autowired AuthenticationManager authenticationManager;
 	
 	@PostMapping("/signin")
-	public ResponseEntity<ResponseGeneric<JwtResponseFinal>> signin(@RequestBody SigninRequest signinRequest) {
+	public ResponseEntity<ResGeneric<JwtResponseFinal>> signin(@RequestBody SigninRequest signinRequest) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		log.info("Inicializa peticion signin con el usuario {} ", signinRequest.getUsername());
@@ -55,8 +55,8 @@ public class SigninHandler {
 						userDetailService.getPhone(), 
 						roles,
 						this.jwtUtils.generateJwtToken(authentication)));		
-		ResponseGeneric<JwtResponseFinal> responseGeneric = null;		
-		responseGeneric = new ResponseGeneric<>(true, "Signin successfully.", jwtResponseFinal);
+		ResGeneric<JwtResponseFinal> responseGeneric = null;		
+		responseGeneric = new ResGeneric<>(true, "Signin successfully.", jwtResponseFinal);
 		log.info("Genera token de usuario jwt {} ", jwtResponseFinal.getJwtResponse().getToken());
 		log.info("Finaliza peticion signin con el usuario {} ", signinRequest.getUsername());
 		return new ResponseEntity<>(responseGeneric, headers, HttpStatus.OK);

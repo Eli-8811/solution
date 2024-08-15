@@ -30,9 +30,9 @@ import com.core.solution.exception.SolutionException;
 import com.core.solution.model.entity.EntityRoleUser;
 import com.core.solution.model.entity.EntityUser;
 import com.core.solution.model.payload.UserRequest;
-import com.core.solution.model.response.ResponseUserData;
-import com.core.solution.model.response.ResponseUserFinal;
-import com.core.solution.model.response.ResponseUserListFinal;
+import com.core.solution.model.response.ResUserData;
+import com.core.solution.model.response.ResUserFinal;
+import com.core.solution.model.response.ResUserListFinal;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -82,8 +82,8 @@ public class UserHandlerTests {
 	
 	@Test
 	public void whenGetUsers() throws SolutionException {
-		ResponseUserListFinal responseUserFinal = new ResponseUserListFinal();		
-		List<ResponseUserData> listResponseUserData = new ArrayList<>();
+		ResUserListFinal responseUserFinal = new ResUserListFinal();		
+		List<ResUserData> listResponseUserData = new ArrayList<>();
 		List<EntityUser> listEntityUser = new ArrayList<EntityUser>();
 		EntityUser entityUser1 = new EntityUser(1, "Demos1", "Demostenes1", "demostenes", "demo@springboot.com", "secret", 35, 5555555555L, true, new Date(), new Date(), new HashSet<EntityRoleUser>());
 		EntityUser entityUser2 = new EntityUser(2, "Demos1", "Demostenes1", "demostenes", "demo@springboot.com", "secret", 35, 5555555555L, true, new Date(), new Date(), new HashSet<EntityRoleUser>());
@@ -93,7 +93,7 @@ public class UserHandlerTests {
 		listEntityUser.add(entityUser3);		
 		when(userServiceMockBean.getUsers()).thenReturn(listEntityUser);
 		for (EntityUser entityUser : this.userServiceMockBean.getUsers()) {
-			ResponseUserData responseUserData = new ResponseUserData();
+			ResUserData responseUserData = new ResUserData();
 			responseUserData.setUserId(entityUser.getUserId());
 			responseUserData.setName(entityUser.getName());
 			responseUserData.setLastname(entityUser.getLastname());
@@ -116,8 +116,8 @@ public class UserHandlerTests {
 	
 	@Test
 	public void whenGetUser() throws SolutionException {
-		ResponseUserFinal responseUserFinal = new ResponseUserFinal();
-		ResponseUserData responseUserData = new ResponseUserData();		
+		ResUserFinal responseUserFinal = new ResUserFinal();
+		ResUserData responseUserData = new ResUserData();		
 		EntityUser entityUser = new EntityUser(1, "Demos1", "Demostenes1", "demostenes", "demo@springboot.com", "secret", 35, 5555555555L, true, new Date(), new Date(), new HashSet<EntityRoleUser>());
 		responseUserData.setUserId(entityUser.getUserId());
 		responseUserData.setName(entityUser.getName());

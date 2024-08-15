@@ -39,12 +39,12 @@ import com.monitorjbl.xlsx.StreamingReader;
 import com.core.solution.access.UserRepository;
 import com.core.solution.exception.SolutionData;
 import com.core.solution.exception.SolutionException;
-import com.core.solution.model.CellModel;
+import com.core.solution.model.ExcelCellModel;
 import com.core.solution.model.ExcelModel;
-import com.core.solution.model.RowModel;
-import com.core.solution.model.SheetModel;
+import com.core.solution.model.ExcelRowModel;
+import com.core.solution.model.ExcelSheetModel;
 import com.core.solution.model.entity.EntityUser;
-import com.core.solution.model.response.ResponseFile;
+import com.core.solution.model.response.ResFile;
 import com.core.solution.utils.MemoryUtil;
 import com.core.solution.utils.MessagesBussines;
 import com.core.solution.utils.Constants;
@@ -70,20 +70,20 @@ public class ExcelService {
 		try {
 			is = file.getInputStream();
 			Workbook wb = StreamingReader.builder().rowCacheSize(100).bufferSize(8192).open(is);
-			List<SheetModel> listSheetModel = new ArrayList<>();
+			List<ExcelSheetModel> listSheetModel = new ArrayList<>();
 			for (Sheet sheet : wb) {
-				List<RowModel> listRowModel = new ArrayList<>();
-				SheetModel sheetModel = new SheetModel();
+				List<ExcelRowModel> listRowModel = new ArrayList<>();
+				ExcelSheetModel sheetModel = new ExcelSheetModel();
 				sheetModel.setSheetName(sheet.getSheetName());
 				listSheetModel.add(sheetModel);
 				log.info("Process sheet {} ", sheetModel.getSheetName());
 				for (Row row : sheet) {
-					List<CellModel> listCellModel = new ArrayList<>();
-					RowModel rowModel = new RowModel();
+					List<ExcelCellModel> listCellModel = new ArrayList<>();
+					ExcelRowModel rowModel = new ExcelRowModel();
 					rowModel.setRowNumber(row.getRowNum());
 					listRowModel.add(rowModel);
 					for (Cell cell : row) {
-						CellModel cellModel = new CellModel();
+						ExcelCellModel cellModel = new ExcelCellModel();
 						cellModel.setCellValue(cell.getStringCellValue());
 						listCellModel.add(cellModel);
 					}
@@ -102,7 +102,7 @@ public class ExcelService {
 		return excelModel;
 	}
 
-	public ResponseFile rewriteExcelReportUsers(String datetimeInit, String datetimeEnd)
+	public ResFile rewriteExcelReportUsers(String datetimeInit, String datetimeEnd)
 			throws SolutionException, ParseException {
 
 		MemoryUtil.showMemoryStats();
@@ -112,7 +112,7 @@ public class ExcelService {
 		Integer line = 1;
 		Resource resource = resourceLoader.getResource("classpath:".concat(Constants.REPORT_RANGE_DATE_USERS));
 		SimpleDateFormat sdf = new SimpleDateFormat(Constants.YYYY_MM_DD_HH_MM_SS);
-		ResponseFile responseFile = new ResponseFile();
+		ResFile responseFile = new ResFile();
 
 		Date dateStart = sdf.parse(datetimeInit);
 		Date dateEnd = sdf.parse(datetimeEnd);
@@ -327,9 +327,9 @@ public class ExcelService {
 		}
 	}
 
-	private ResponseFile generateDataBase64(Workbook workbook) throws SolutionException {
+	private ResFile generateDataBase64(Workbook workbook) throws SolutionException {
 		String base64 = null;
-		ResponseFile responseFile = new ResponseFile();
+		ResFile responseFile = new ResFile();
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		try {
 			workbook.write(outputStream);

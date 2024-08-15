@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.core.solution.mapper.AforeMapper">
+	
+	<resultMap id="getConfigTablesResult" type="EntityConfigTable">
+		<id column="config_id" property="configId" />
+		<result column="type" property="type" />
+		<result column="name_table" property="nameTable" />
+		<result column="name_file" property="nameFile" />
+		<result column="regimen" property="regimen" />
+		<result column="enabled" property="enabled" />
+		<result column="creation_at" property="creationAt" />
+		<result column="modification_at" property="modificationAt" />
+	</resultMap>
+
+	<select id="getConfigTables" resultMap="getConfigTablesResult">
+		SELECT 
+			config_id,
+			type, 
+			name_table, 
+			name_file,
+			regimen,
+			enabled, 
+			creation_at, 
+			modification_at
+		FROM public.config_autoservicio
+		WHERE enabled IS NOT FALSE
+	</select>
+
+</mapper>

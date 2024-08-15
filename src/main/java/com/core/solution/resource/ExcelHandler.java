@@ -15,9 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.core.solution.bussines.ExcelService;
 import com.core.solution.model.ExcelModel;
-import com.core.solution.model.response.ResponseFile;
-import com.core.solution.model.response.ResponseFileFinal;
-import com.core.solution.model.response.ResponseGeneric;
+import com.core.solution.model.response.ResFile;
+import com.core.solution.model.response.ResFileFinal;
+import com.core.solution.model.response.ResGeneric;
 import com.core.solution.utils.MessagesResources;
 
 import lombok.AllArgsConstructor;
@@ -45,16 +45,16 @@ public class ExcelHandler {
 	@SneakyThrows
 	@GetMapping("/rewrite")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<ResponseGeneric<ResponseFileFinal>> rewriteExcelReportUsers(
+	public ResponseEntity<ResGeneric<ResFileFinal>> rewriteExcelReportUsers(
 			@RequestParam("datetimeStart") String datetimeStart, 
 			@RequestParam("datetimeEnd") String datetimeEnd) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		ResponseGeneric<ResponseFileFinal> responseGeneric = null;
-		ResponseFileFinal responseFileFinal = new ResponseFileFinal();
-		ResponseFile responseFile = this.excelService.rewriteExcelReportUsers(datetimeStart, datetimeEnd);
+		ResGeneric<ResFileFinal> responseGeneric = null;
+		ResFileFinal responseFileFinal = new ResFileFinal();
+		ResFile responseFile = this.excelService.rewriteExcelReportUsers(datetimeStart, datetimeEnd);
 		responseFileFinal.setResponseFile(responseFile);
-		responseGeneric = new ResponseGeneric<>(
+		responseGeneric = new ResGeneric<>(
 				MessagesResources.SUCCESS, 
 				String.format(MessagesResources.MESSAGE_REPORT_RANGE_USERS, datetimeStart, datetimeEnd), 
 				responseFileFinal);
